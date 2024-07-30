@@ -1,0 +1,36 @@
+jwt:
+  secret: mysecretkey
+  expiration: 86400000  # 1 dia em milissegundos
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9091
+    consumer:
+      group-id: grupo_boletos
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: br.com.nfsboletos.comercial.util.BoletoDeserializer
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: br.com.nfsboletos.comercial.util.BoletoSerializer
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    hikari:
+      maximum-pool-size: 10
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080
